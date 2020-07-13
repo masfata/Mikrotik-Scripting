@@ -1,0 +1,5 @@
+:local ip [:pick [/ip add get [/ip add find interface=Internet] address] 0 ([:len [/ip add ge [/ip add find interface=Internet] address]] -3) ];
+
+Internet = nama interface
+len = untuk menghilangkan prefix
+-3 = untuk menghilangkan /24 yng berjumlah 3 karakter
