@@ -1,0 +1,5 @@
+#gateway
+:local gw [/ip address get [find where interface=Internet] value-name=network]
+
+#ipaddress
+:local ip [/ip address get [find where interface=Internet] value-name=address]
