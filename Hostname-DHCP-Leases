@@ -1,0 +1,2 @@
+#by mac
+[:ip dhcp-server lease get [:ip dhcp-server lease find mac-address=00:0A:F5:DA:58:CC] host-name]; 
