@@ -1,0 +1,20 @@
+/ip route
+add check-gateway=ping comment=ISP2 distance=1 gateway=192.168.2.1
+add check-gateway=ping comment=ISP1 distance=1 gateway=192.168.1.1
+add comment=netwatch-failover distance=1 dst-address=8.8.8.8/32 gateway=\
+ 192.168.2.1
+
+ /tool netwatch
+add down-script=failover-to-ISP1 host=8.8.8.8 interval=3s
+add host=8.8.8.8 interval=3s up-script=back-to-ISP2
+
+/system script
+add name=failover-to-ISP1 owner=admin policy=\
+ ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source=":\
+ if ([/ip route get [/ip route find comment=\"ISP2\"] disabled]=yes) do=\
+ {/ip route enable [/ip route find comment=\"ISP2\"]} else={/ip route disable [/ip route find comment=\"ISP2\"]}"
+
+
+add name=back-to-ISP2 owner=admin policy=\
+ ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source=":\
+ if ([/ip route get [/ip route find comment=\"ISP2\"] disabled]=yes) do= {/ip route enable [/ip route find comment=\"ISP2\"]}"
